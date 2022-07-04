@@ -1,0 +1,37 @@
+import numpy as np
+import soundfile as sf
+import matplotlib.pyplot as plt
+import scipy.fft
+import simpleaudio as sa
+import librosa
+
+Ismail, Sample = librosa.load("/content/my voice.wav")
+
+def magnitude(signal, a):    
+    fourier_transform = np.fft.fft(signal) # fourier transform
+    magnitude_1 = np.abs(fourier_transform) # abslute value of furier transform
+    plt.figure(figsize=(16,5)) # plot of figure
+    frequncy = np.linspace(0,a,len(magnitude_1)) 
+    num_freq = int(len(frequncy)*0.1) 
+    
+    plt.plot(frequncy[:num_freq], magnitude_1[:num_freq]) # ploting magnitude spectrum
+    plt.xlabel("Frequency")
+    plt.title("Magnitude Spectrum")
+    plt.show
+
+def inverse_magnitude(signal, a): # inverse fourier transform
+    invers_fourier_transform = np.fft.ifft(np.fft.fft(signal)) # inverse abslute value
+    invers_magnitude = np.abs(invers_fourier_transform) # inverse magnitude
+    plt.figure(figsize=(16,5)) # plot of figure
+    time = np.linspace(0,a,len(invers_magnitude))
+    num_time = int(len(time)*0.1)
+    
+    plt.plot(time[:num_time], invers_magnitude[:num_time]) #ploting inverse magnitude spectrum
+    plt.xlabel("Sec")
+    plt.title("Inverse Magnitude Spectrum")
+    plt.show
+    
+    sf.write('Chaneged audio.wav', invers_magnitude, 10000, 'PCM_24') # changing frequancy
+
+magnitude( Ismail,  Sample)
+inverse_magnitude( Ismail,  Sample)

@@ -1,0 +1,8 @@
+commnet (1) : when we convolute first input x[n] with filter h[n] the plote shifted
+every time we we add the two signals from range 0 to 99.
+-----------------------------------------------------------------
+comment (2) : when we convolute the seconed input of x[n] with filter 
+h[n], the noisy signal with 44 cycle can't goes throw this filter
+so the original signal with 6 cycle is passed the filter and we can see
+it on the plot.
+----------------------------------------------------------------

@@ -1,0 +1,68 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import cmath
+ 
+fig1 = plt.figure(figsize=(13,6))
+ah = fig1.add_subplot(111)
+ah.set_title("Impulse response plots") ####first plot of h[n] as filter low-pass winded sinc
+
+fig2 = plt.figure(figsize=(13,6))
+ax = fig2.add_subplot(111)
+ax.set_title("input First Signal")  #### second plot as input of x[n] act like impulse respone when x[0] = 1 and 0 o.w
+
+
+fig3 = plt.figure(figsize=(13,6))  #### third plot as convultion between two signals
+ay = fig3.add_subplot(111)
+ay.set_title("output first Signal")
+
+fig4 = plt.figure(figsize=(13,6))  ### fourth plot as input x[n] act noisy signal
+aXN = fig4.add_subplot(111)
+aXN.set_title("input Noise Signal")
+
+fig4 = plt.figure(figsize=(13,6))  ####fifht plot as output of counvulotion between filter and input signal
+aN = fig4.add_subplot(111)
+aN.set_title("Output Noise Signal")
+
+
+
+y=[0]*599  ## initializating the ouptut array 
+
+h =[0]*99  ##initilization the impulse response
+
+## function for filter low-pass window
+for n in range(0,99):
+     val = 0.31752 * np.sin(0.314159 * (n-49.00001)) / (n-49.00001)
+     h[n] = val * (0.54 - 0.46 * np.cos(0.0641114 * n))
+     ah.plot(n,h[n],marker='.')
+
+x=[0]*500 ## iniitizalition for input as 6[n]
+x[0]=1 ## when x[0] = 1
+ax.plot(0,x[0],marker='.') ## drawing of x[n]
+
+def conv(x,h): # manual way of convulation of h[n]*x[n]
+    for i in range(len(x)):
+        for j in range(len(h)):
+              y[i+j-1] += x[i]*h[j]
+    return y
+
+y = conv(x,h)
+
+for n in range(1,598): # drawing first y[n]
+      ay.plot(n,y[n],marker='.')
+
+for i in range(0,500): # second input x[n]
+    x[i] =  np.sin(2*np.pi*6*i/500) + 0.5*np.sin(2*np.pi*44*i/500)
+    aXN.plot(i,x[i],marker='.')    
+
+
+def conv(x,h): # convulation
+    for i in range(len(x)):
+        for j in range(len(h)):
+              y[i+j-1] += x[i]*h[j]
+    return y
+
+y = conv(x,h)
+
+for n in range(1,598): #drawing second y[n]
+      aN.plot(n,y[n],marker='.') 
+ 
